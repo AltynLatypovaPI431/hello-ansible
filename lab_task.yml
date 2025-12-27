@@ -1,0 +1,40 @@
+---
+- name: Выполнение лабораторной работы
+  hosts: managed_hosts
+  become: yes
+  
+  tasks:
+    - name: Создаем файл с результатами лабораторной
+      copy:
+        dest: /home/ansible/ansible_lab_result.txt
+        content: |
+          ==================================
+          ОТЧЕТ О ВЫПОЛНЕНИИ ЛАБОРАТОРНОЙ РАБОТЫ
+          ==================================
+          
+          Задание 1: Установка Ansible - ВЫПОЛНЕНО
+          Задание 2: Настройка SSH ключей - ВЫПОЛНЕНО
+          Задание 3: Создание inventory файла - ВЫПОЛНЕНО
+          Задание 4: Проверка подключения (ping) - ВЫПОЛНЕНО
+          Задание 5: Запуск Ansible Playbook - ВЫПОЛНЕНО
+          
+          Техническая информация:
+          - Управляющий хост: control-node
+          - Управляемый хост: {{ ansible_hostname }}
+          - Операционная система: {{ ansible_distribution }} {{ ansible_distribution_version }}
+          - Архитектура: {{ ansible_architecture }}
+          - Дата выполнения: {{ ansible_date_time.date }}
+          - Время выполнения: {{ ansible_date_time.time }}
+          
+          Все задания выполнены успешно!
+        owner: ansible
+        group: ansible
+        mode: '0644'
+    
+    - name: Показываем содержимое файла
+      command: cat /home/ansible/ansible_lab_result.txt
+      register: lab_output
+    
+    - name: Выводим результат
+      debug:
+        msg: "{{ lab_output.stdout_lines }}"

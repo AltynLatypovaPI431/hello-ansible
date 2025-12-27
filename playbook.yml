@@ -1,0 +1,73 @@
+---
+- name: Базовый Playbook для управления хостом
+  hosts: managed_hosts
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: Update package list
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install required packages
+      apt:
+        name:
+          - htop
+          - tree
+          - git
+          - net-tools
+        state: present
+
+    - name: Create test directory
+      file:
+        path: /home/ansible/test_dir
+        state: directory
+        mode: '0755'
+        owner: ansible
+        group: ansible
+
+    - name: Create test file with content
+      copy:
+        dest: /home/ansible/test_dir/test_file.txt
+        content: |
+          Hello from Ansible!
+          This is a test file created by Ansible playbook.
+          Hostname: {{ ansible_hostname }}
+          OS: {{ ansible_distribution }} {{ ansible_distribution_version }}
+        owner: ansible
+        group: ansible
+        mode: '0644'
+
+    - name: Display file content
+      command: cat /home/ansible/test_dir/test_file.txt
+      register: file_content
+      changed_when: false
+
+    - name: Show file content
+      debug:
+        msg: "File content from managed host: {{ file_content.stdout }}"
+
+    - name: Get system information
+      debug:
+        msg: "System: {{ ansible_system }}, Hostname: {{ ansible_hostname }}, Distribution: {{ ansible_distribution }} {{ ansible_distribution_version }}"
+
+    - name: Check disk space
+      command: df -h /
+      register: disk_space
+      changed_when: false
+
+    - name: Show disk space
+      debug:
+        msg: "Disk space: {{ disk_space.stdout_lines[1] }}"
+
+    - name: Create custom message file
+      copy:
+        dest: /home/ansible/custom_message.txt
+        content: |
+          Лабораторная работа выполнена успешно!
+          Дата: {{ ansible_date_time.date }}
+          Время: {{ ansible_date_time.time }}
+        owner: ansible
+        group: ansible
+        mode: '0644'

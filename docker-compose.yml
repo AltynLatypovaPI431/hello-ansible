@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  managed-host:
+    build:
+      context: .
+      dockerfile: Dockerfile.managed
+    container_name: ansible-managed-host
+    hostname: managed-host
+    ports:
+      - "2222:22"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    restart: unless-stopped
+    networks:
+      - ansible-net
+
+  control-node:
+    image: ubuntu:22.04
+    container_name: ansible-control-node
+    hostname: control-node
+    volumes:
+      - .:/workspace
+      - ./ssh-keys:/root/.ssh
+    working_dir: /workspace
+    command: tail -f /dev/null
+    networks:
+      - ansible-net
+    depends_on:
+      - managed-host
+
+networks:
+  ansible-net:
+    driver: bridge

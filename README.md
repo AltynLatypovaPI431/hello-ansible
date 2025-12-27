@@ -1,2 +1,3 @@
-# hello-ansible
-Лабораторная работа 3
+# Ansible Lab for DevOps
+
+Лабораторная работа по основам Ansible с использованием Docker.

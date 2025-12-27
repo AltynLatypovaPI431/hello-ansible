@@ -1,0 +1,25 @@
+---
+- name: Простой Playbook для лабораторной
+  hosts: managed_hosts
+  become: yes
+  
+  tasks:
+    - name: Создание файла результата
+      copy:
+        dest: /home/ansible/lab_completed.txt
+        content: |
+          Лабораторная работа выполнена!
+          Дата: {{ ansible_date_time.date }}
+          Хост: {{ ansible_hostname }}
+          ОС: {{ ansible_distribution }}
+        owner: ansible
+        group: ansible
+        mode: '0644'
+    
+    - name: Проверка
+      command: cat /home/ansible/lab_completed.txt
+      register: result
+      
+    - name: Вывод результата
+      debug:
+        msg: "{{ result.stdout }}"
