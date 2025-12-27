@@ -2,13 +2,9 @@
 
 Лабораторная работа по основам Ansible с использованием Docker.
 
-Введение
-
 Цель данной лабораторной работы — освоить практические навыки работы с Ansible, инструментом для автоматизации конфигурации и управления инфраструктурой. 
 
 # Ход работы
-
-## Выполнение заданий для самостоятельной работы 
 
 ## Подготовка проекта и созданеи файлов конфигурации
 
@@ -69,8 +65,10 @@ playbook.yml:
 
 ## Запуск playbook:
 
-<img width="1100" height="430" alt="image" src="https://github.com/user-attachments/assets/05c64558-50d1-4c52-8f32-2103380019be" />
+<img width="1900" height="649" alt="image" src="https://github.com/user-attachments/assets/a111fe29-fc06-4838-9cb5-338347a47c9a" />
 
 ## Результат:
+
+<img width="1364" height="241" alt="image" src="https://github.com/user-attachments/assets/730aa7ec-59ee-4df7-bfc2-cacbfa6dfe26" />
 
 <img width="641" height="431" alt="image" src="https://github.com/user-attachments/assets/bf48442b-a377-4b3c-a74f-0293e1fbe55f" />
